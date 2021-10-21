@@ -42,13 +42,19 @@ class ChaptrGmail():
 
     def send_reminder_email(self,row):
         # Text to be displayed on the email
-        salutations = "\nHi, "+ row[0]+"\n"+ row[1]
+        salutations = "\nHi, "+ row[0]+"\n"
         body =  "\nYou are yet to submit "+self.assignment_name + " assignment."
         link_to = "\n\nHere is the link to the assignment  : " + self.link_to_assignment
+        more_text = '''
+        \nIf you had submitted your project, you could be receiving this email because :
+        - You submitted with a title different from the one specified.
+        - You used an email for submission that is different from the one you registered on Chaptr.        
+        \nDo resubmit, but make sure to follow the guidelines and use the specific email you registered with.'''
+                    
         # ----------
 
-        email_string = salutations + body + link_to
-        email_to_send = self.create_message('asetashadrach@outlook.com',
+        email_string = salutations + body + link_to + more_text
+        email_to_send = self.create_message(row[1],
                                             'UNSUBMITTED ASSIGNMENT REMINDER',
                                             email_string
                                             )
@@ -58,7 +64,7 @@ class ChaptrGmail():
 
 
     def gmail_main(self, df):
-        service = CreateService('gmail_client_secret.json',
+        service = CreateService('ChaptrGmailSecret.json',
                                 'chaptr_gmail_token.json',
                                 'gmail', 
                                 'v1', 
