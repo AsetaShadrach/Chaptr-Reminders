@@ -12,7 +12,7 @@ class ChaptrSheets():
     def get_sheet_data(self):
         RANGE_NAMES = self.params['range_names']
 
-        service = CreateService('sheets_client_secret.json',
+        service = CreateService('ChaptrSheetsSecret.json',
                                 'chaptr_sheet_token.json',
                                 'sheets', 
                                 'v4', 
@@ -50,6 +50,7 @@ class ChaptrSheets():
         date_to_check_from = self.params['date_to_check_from']
         project_name = self.params['project_name']
 
+        submission_df["ProjectName"] = submission_df["ProjectName"].apply(lambda x:x.lower())
         # Get the dataframe os students who have not submitted
         completed_projects = submission_df [ (submission_df.TimePosted > date_to_check_from)
                                             & (submission_df.ProjectName == project_name)]
